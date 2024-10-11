@@ -1,33 +1,73 @@
+
 # StoragePermissionHandler Library
 
-`StoragePermissionHandler` is an Android library that simplifies handling storage permissions across all Android versions (from Android 5.0 to Android 14). It allows developers to request storage access and interact with specific folders, including reading, deleting, copying, and moving files.
+`StoragePermissionHandler` is an Android library that simplifies handling storage permissions across all Android versions (from Android 5.0 to Android 14). It allows developers to request storage access and interact with files, including reading and writing files.
 
 ## Features
 
-- Request storage permission for reading/writing on all Android versions (5.0 to 14).
-- Request access to specific folders.
-- Read all files from a selected folder.
-- Perform file operations such as copy, delete, and move.
-- Compatible with scoped storage introduced in Android 10+.
+- Request storage permissions in a simplified manner.
+- Handle different permission responses (granted or denied).
+- Perform actions based on permission status.
+- Compatible with Android 5.0 to Android 14.
 
-## Setup
+## Installation
 
-### 1. Add the Library to Your Project
-You can include the `StoragePermissionHandler` library in your Android project by downloading the code or adding the `.kt` files directly to your project.
+### Using JitPack
 
-### 2. Usage
+To add `StoragePermissionHandler` to your project using [JitPack](https://jitpack.io/), follow these steps:
 
-To use the `StoragePermissionHandler` library, follow these steps:
+1. Add JitPack to your project-level `build.gradle`:
 
-#### 1. Initialize the Library
-In your `MainActivity`, initialize the `StoragePermissionHandler`:
+   ```gradle
+   allprojects {
+       repositories {
+           google()
+           mavenCentral()
+           maven { url 'https://jitpack.io' }
+       }
+   }
+   ```
+
+2. Add the library dependency to your app-level `build.gradle`:
+
+   ```gradle
+   dependencies {
+       implementation 'com.github.JK-Khan:Android-Storage-Permission:version'
+   }
+   ```
+
+   Replace `version` with the latest release version (e.g., `v1.0`).
+
+## Usage
+
+Here is a simple example of how to use the `StoragePermissionHandler` in your `MainActivity`:
 
 ```kotlin
-private lateinit var storagePermissionHandler: StoragePermissionHandler
+class MainActivity : AppCompatActivity() {
 
-override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-    setContentView(R.layout.activity_main)
-    
-    storagePermissionHandler = StoragePermissionHandler(this)
+    private lateinit var storagePermissionHandler: StoragePermissionHandler
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        storagePermissionHandler = StoragePermissionHandler(this)
+
+        // Check storage permission
+        storagePermissionHandler.checkStoragePermission(
+            onPermissionGranted = {
+                // Permission is granted
+                // Perform tasks that require storage access
+            },
+            onPermissionDenied = {
+                // Permission is denied
+                // Show a message or handle accordingly
+            }
+        )
+    }
 }
+```
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
